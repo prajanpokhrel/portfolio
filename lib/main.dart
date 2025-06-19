@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(const PortfolioApp());
@@ -166,7 +167,7 @@ class HomePage extends StatelessWidget {
               buildSkillsSection(),
               const SizedBox(height: 40),
               Container(key: contactKey),
-              buildContactSection(),
+              buildContactSection(context), // <-- Updated here to pass context
               const SizedBox(height: 20),
             ],
           ),
@@ -246,44 +247,69 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget buildContactSection() {
+  Widget buildContactSection(BuildContext context) {
+    final color = Theme.of(context).colorScheme.onBackground;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Contact Me',
-          style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+            color: color,
+          ),
         ),
         const SizedBox(height: 20),
         Row(
-          children: const [
-            Icon(FontAwesomeIcons.envelope, color: Colors.white70),
-            SizedBox(width: 10),
-            Text(
+          children: [
+            Icon(FontAwesomeIcons.envelope, color: color),
+            const SizedBox(width: 10),
+            SelectableText(
               'prajanpokhrel09@gmail.com',
-              style: TextStyle(fontSize: 18, color: Colors.white70),
+              style: TextStyle(fontSize: 18, color: color),
             ),
           ],
         ),
         const SizedBox(height: 10),
         Row(
-          children: const [
-            Icon(FontAwesomeIcons.github, color: Colors.white70),
-            SizedBox(width: 10),
-            Text(
-              'https://github.com/prajanpokhrel',
-              style: TextStyle(fontSize: 18, color: Colors.white70),
+          children: [
+            Icon(FontAwesomeIcons.github, color: color),
+            const SizedBox(width: 10),
+            InkWell(
+              onTap:
+                  () =>
+                      launchUrl(Uri.parse('https://github.com/prajanpokhrel')),
+              child: Text(
+                'github.com/prajanpokhrel',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: color,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
             ),
           ],
         ),
         const SizedBox(height: 10),
         Row(
-          children: const [
-            Icon(FontAwesomeIcons.linkedin, color: Colors.white70),
-            SizedBox(width: 10),
-            Text(
-              'linkedin.com/in/yourusername',
-              style: TextStyle(fontSize: 18, color: Colors.white70),
+          children: [
+            Icon(FontAwesomeIcons.linkedin, color: color),
+            const SizedBox(width: 10),
+            InkWell(
+              onTap:
+                  () => launchUrl(
+                    Uri.parse('https://linkedin.com/in/yourusername'),
+                  ),
+              child: Text(
+                'linkedin.com/in/yourusername',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: color,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
             ),
           ],
         ),
